@@ -1,0 +1,110 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a [routerLink]="['/home']" class="navbar-brand" href="#">Fooder</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" href="#">Why Fooder
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" href="#" [routerLink]="['/restaurants']">Restaurants</a>
+        </li>
+        <li class="nav-item dropdown" dropdown>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false" dropdownToggle (click)="false">
+            Products
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown" *dropdownMenu>
+            <a class="dropdown-item" href="#">Product1</a>
+            <a class="dropdown-item" href="#">Product2</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Compare Product</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li>
+      </ul>
+    
+
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button *ngIf="!loggedIn()"  class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign In</button>
+      </form>
+      <!-- <div class="navbar-nav" >
+          <div  class="nav-item" dropdown>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false" dropdownToggle>
+              Products
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown" *dropdownMenu>
+              <a class="dropdown-item" href="#">Product1</a>
+              <a class="dropdown-item" href="#">Product2</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Compare Product</a>
+            </div>
+          </div>
+        </div> -->
+        <div *ngIf="loggedIn()" class="navbar-nav">
+          <div class="btn-group nav-item" dropdown>
+            <button id="button-autoclose1" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                    aria-controls="dropdown-autoclose1">
+              {{authService.decodedToken?.unique_name | titlecase}}<span class="caret"></span>
+            </button>
+            <ul id="dropdown-autoclose1" *dropdownMenu class="dropdown-menu"
+                role="menu" aria-labelledby="button-autoclose1">
+              <li role="menuitem"><a class="dropdown-item" href="#">Edit Profile</a></li>
+              <li role="menuitem"><a class="dropdown-item" href="#">Another action</a></li>
+              <li role="menuitem"><a (click)="logOut()" class="dropdown-item" href="#"><i class="fa fa-sign-out"></i>Logout</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <form #registerForm="ngForm" (ngSubmit)="register()">
+        <h2 class="text-center text-primary">Sign Up</h2>
+
+        <hr>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Username" required name="username" [(ngModel)]="model.username">
+        </div>
+
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Password" required name="password" [(ngModel)]="model.password">
+        </div>
+
+        <div class="form-group text-center">
+          <button class="btn btn-success" type="submit">Register</button>
+        </div>
+      </form>
+      <form #loginForm="ngForm" (ngSubmit)="login()">
+        <h2 class="text-center text-primary">login</h2>
+
+        <hr>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Username" required name="username" [(ngModel)]="model.username">
+        </div>
+
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Password" required name="password" [(ngModel)]="model.password">
+        </div>
+
+        <div class="form-group text-center">
+          <button class="btn btn-success" type="submit">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
