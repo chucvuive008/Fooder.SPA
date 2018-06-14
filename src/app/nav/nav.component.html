@@ -22,50 +22,137 @@
             Products
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown" *dropdownMenu>
-            <a class="dropdown-item" href="#">Product1</a>
+            <a class="dropdown-item" href="#" [routerLink]= "['/restaurants/register']" >Add Restaurant</a>
             <a class="dropdown-item" href="#">Product2</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Compare Product</a>
           </div>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
       </ul>
-    
+
 
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button *ngIf="!loggedIn()"  class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign In</button>
+        <button *ngIf="!loggedIn()" style="margin-right: 5px" class="btn btn-success my-2 my-sm-0" (click)="openLoginModal(templateLogin)" type="button" >Sign In</button>
+        <button *ngIf="!loggedIn()" class="btn btn-success my-2 my-sm-0" (click)="openRegisterModal(templateRegister)" type="button">Register</button>
       </form>
-      <!-- <div class="navbar-nav" >
-          <div  class="nav-item" dropdown>
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false" dropdownToggle>
-              Products
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown" *dropdownMenu>
-              <a class="dropdown-item" href="#">Product1</a>
-              <a class="dropdown-item" href="#">Product2</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Compare Product</a>
-            </div>
-          </div>
-        </div> -->
-        <div *ngIf="loggedIn()" class="navbar-nav">
-          <div class="btn-group nav-item" dropdown>
-            <button id="button-autoclose1" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-                    aria-controls="dropdown-autoclose1">
-              {{authService.decodedToken?.unique_name | titlecase}}<span class="caret"></span>
-            </button>
-            <ul id="dropdown-autoclose1" *dropdownMenu class="dropdown-menu"
-                role="menu" aria-labelledby="button-autoclose1">
-              <li role="menuitem"><a class="dropdown-item" href="#">Edit Profile</a></li>
-              <li role="menuitem"><a class="dropdown-item" href="#">Another action</a></li>
-              <li role="menuitem"><a (click)="logOut()" class="dropdown-item" href="#"><i class="fa fa-sign-out"></i>Logout</a></li>
-            </ul>
-          </div>
+
+      <ng-template #templateLogin >
+        <div class="modal-header">
+          <h2 style="width: 100%" class="modal-title text-center text-primary">Login</h2>
         </div>
+        <div class="modal-body">
+          <form #loginForm="ngForm" (ngSubmit)="login()">
+
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Username"  required name="username" [(ngModel)]="model.username">
+            </div>
+
+            <div class="form-group">
+              <input type="password" class="form-control" placeholder="Password" required name="password" [(ngModel)]="model.password">
+            </div>
+
+            <div class="form-group text-center">
+              <button class="btn btn-success btn-lg" type="submit">Login</button>
+              <button type="reset" class="btn btn-success btn-lg" (click)="modalLogin.hide()">Back</button>
+            </div>
+          </form>
+        </div>
+      </ng-template>
+      <ng-template #templateRegister>
+        <div class="modal-header">
+          <h2 style="width: 100%" class="modal-title text-center text-primary">Register</h2>
+        </div>
+        <div class="modal-body">
+          <form [formGroup] = "registerForm" (ngSubmit)="register()">
+            <div class="form-group" [ngClass]="{'has-error': registerForm.get('username').errors && registerForm.get('username').touched}">
+              <input type="text" class="form-control" placeholder="Username"  required name="username" formControlName = 'username'>
+              <span class="help-block" *ngIf="this.registerForm.get('username').hasError('required') && registerForm.get('username').touched">
+                Username is required
+              </span>
+            </div>
+
+            <div class="form-group" [ngClass]="{ 'has-error': registerForm.get( 'password').errors && registerForm.get( 'password').touched}">
+              <input type="password" class="form-control" placeholder="Password" formControlName="password">
+              <span class="help-block" *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">
+                Password is required
+              </span>
+              <span class="help-block" *ngIf="registerForm.get('password').hasError('minlength') && registerForm.get('password').touched">
+                Password must be at least 6 character
+              </span>
+              <span class="help-block" *ngIf="registerForm.get('password').hasError('maxlength') && registerForm.get('password').touched">
+                Password can not exceed 12 character
+              </span>
+            </div>
+          
+            <div class="form-group" [ngClass]="{ 'has-error': registerForm.get( 'confirmPassword').errors 
+            && registerForm.get( 'confirmPassword').touched || registerForm.get( 'confirmPassword').touched 
+            && registerForm.hasError('mismatch')}">
+              <input type="password" class="form-control" placeholder="Confirm Password" formControlName="confirmPassword">
+              <span class="help-block" *ngIf="registerForm.get('confirmPassword').hasError('required') && registerForm.get('confirmPassword').touched">
+                Confirm Password is required
+              </span>
+              <span class="help-block" *ngIf="registerForm.get( 'confirmPassword').touched && registerForm.hasError('mismatch')">
+                Confirm Password is not match password
+              </span>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-error': registerForm.get('email').errors && registerForm.get('email').touched}">
+              <input type="text" class="form-control" placeholder="Email"  required name="email" formControlName = 'email'>
+              <span class="help-block" *ngIf="this.registerForm.get('email').hasError('required') && registerForm.get('email').touched">
+                Email is required
+              </span>
+            </div>
+
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Street Name" name="street" formControlName = "street" >
+            </div>
+            
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Apt/Suite" name="apt" formControlName = "apt">
+            </div>
+
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="City" name="city" formControlName = "city">
+            </div>
+
+            <div class="form-group">           
+              <input type="text" class="form-control" placeholder="State" name = "state" formControlName = "state">
+            </div>
+
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Zipcode" name = "zip5" formControlName = "zip5">
+            </div>
+
+            <div class="form-group text-center">
+              <button class="btn btn-success btn-lg" [disabled]="!registerForm.valid" type="submit">Register</button>
+              <button type="reset" class="btn btn-success btn-lg" (click)="modalRegister.hide()">Back</button>
+            </div>
+          </form>
+        </div>
+      </ng-template>
+
+      <div *ngIf="loggedIn()" class="navbar-nav">
+        <div class="btn-group nav-item" dropdown>
+          <button id="button-autoclose1" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-autoclose1">
+            {{authService.decodedToken?.unique_name | titlecase}}
+            <span class="caret"></span>
+          </button>
+          <ul id="dropdown-autoclose1" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-autoclose1">
+            <li role="menuitem">
+              <a class="dropdown-item" [routerLink]= "['/member/edit']" href="#">Edit Profile</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" href="#">Another action</a>
+            </li>
+            <li role="menuitem">
+              <a (click)="logOut()" class="dropdown-item" href="#">
+                <i class="fa fa-sign-out"></i>Logout</a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
     </div>
   </div>
 </nav>
@@ -73,38 +160,8 @@
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-md-4">
-      <form #registerForm="ngForm" (ngSubmit)="register()">
-        <h2 class="text-center text-primary">Sign Up</h2>
 
-        <hr>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Username" required name="username" [(ngModel)]="model.username">
-        </div>
 
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Password" required name="password" [(ngModel)]="model.password">
-        </div>
-
-        <div class="form-group text-center">
-          <button class="btn btn-success" type="submit">Register</button>
-        </div>
-      </form>
-      <form #loginForm="ngForm" (ngSubmit)="login()">
-        <h2 class="text-center text-primary">login</h2>
-
-        <hr>
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Username" required name="username" [(ngModel)]="model.username">
-        </div>
-
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Password" required name="password" [(ngModel)]="model.password">
-        </div>
-
-        <div class="form-group text-center">
-          <button class="btn btn-success" type="submit">Login</button>
-        </div>
-      </form>
     </div>
   </div>
 </div>

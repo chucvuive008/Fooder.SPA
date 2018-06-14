@@ -1,0 +1,18 @@
+@media (min-width: 768px) {
+  .inner_container {
+    width: 50%;
+    margin: auto;
+  }
+}
+
+@media (min-width: 300px) {
+    .inner_container {
+      width: 70%;
+      margin: auto;
+    }
+  }
+
+.btn-lg {
+  width: 100px;
+  margin-top: 10px;
+}

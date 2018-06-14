@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="inner_container">
+    <form [formGroup]="registerForm" (ngSubmit) = "register()">
+      <h2 class="text-center text-primary">Add New Restaurant</h2>
+      <hr>
+
+      <div class="form-group" [ngClass]="{'has-error': registerForm.get('name').errors && registerForm.get('name').touched}">
+        <input type="text" placeholder="Name" formControlName="name" class="form-control">
+        <span class="help-block" *ngIf="registerForm.get('name').hasError('required') && registerForm.get('name').touched">
+          Name is required
+        </span>
+      </div>
+
+      <div class="form-group">
+        <input type="text" placeholder="Website" formControlName="website" class="form-control">
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': registerForm.get('phoneNumber').errors && registerForm.get('phoneNumber').touched}">
+        <input type="text" placeholder="Phone Number" formControlName="phoneNumber" class="form-control">
+        <span class="help-block" *ngIf="registerForm.get('phoneNumber').hasError('required') && registerForm.get('phoneNumber').touched">
+          Phone Number is required
+        </span>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': registerForm.get('description').errors && registerForm.get('description').touched}">
+        <textarea type="text" placeholder="Description" formControlName="description" class="form-control"></textarea>
+        <span class="help-block" *ngIf="registerForm.get('description').hasError('required') && registerForm.get('description').touched">
+          Description is required
+        </span>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': registerForm.get('type').errors && registerForm.get('type').touched}">
+        <input type="text" placeholder="Restaurant Type" formControlName="type" class="form-control">
+        <span class="help-block" *ngIf="registerForm.get('type').hasError('required') && registerForm.get('type').touched">
+          Restaurant Types is required
+        </span>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': registerForm.get('street').errors && registerForm.get('street').touched}">
+        <input type="text" placeholder="Street" formControlName="street" class="form-control">
+        <span class="help-block" *ngIf="registerForm.get('street').hasError('required') && registerForm.get('street').touched">
+          Street is required
+        </span>
+      </div>
+
+      <div class="form-group">
+        <input type="text" placeholder="Suite" formControlName="suite" class="form-control">
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': registerForm.get('city').errors && registerForm.get('city').touched}">
+        <input type="text" placeholder="City" formControlName="city" class="form-control">
+        <span class="help-block" *ngIf="registerForm.get('city').hasError('required') && registerForm.get('city').touched">
+          City is required
+        </span>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': registerForm.get('state').errors && registerForm.get('state').touched}">
+        <input type="text" placeholder="State" formControlName="state" class="form-control">
+        <span class="help-block" *ngIf="registerForm.get('state').hasError('required') && registerForm.get('state').touched">
+          State is required
+        </span>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': registerForm.get('zip5').errors && registerForm.get('zip5').touched}">
+        <input type="text" placeholder="Zip Code" formControlName="zip5" class="form-control">
+        <span class="help-block" *ngIf="registerForm.get('zip5').hasError('required') && registerForm.get('zip5').touched">
+          Zip Code is required
+        </span>
+      </div>
+
+      <div class="form-group text-center">
+          <button class="btn btn-success btn-lg" type="submit" [disabled]="!registerForm.valid">Submit</button>
+          <button type="reset" class="btn btn-success btn-lg" (click)="cancel()">Cancel</button>
+      </div>
+    </form>
+
+  </div>
+</div>
